@@ -9,13 +9,14 @@
 	<link rel="stylesheet" href="style.css">
 <style>
 html {
-	font-size: 32px;
+	font-size: 16px;
 	color-scheme: dark;
 }
 .clock {
 	font-family: monospace;
-	font-size: 64px;
+	font-size: 32px;
 	margin: 12px;
+	display: inline;
 }
 </style>
 </head>
@@ -35,8 +36,8 @@ html {
 		window.onload = displayClock();
 		function displayClock() {
 			const date = new Date()
-			const auckland = date.toLocaleTimeString('en-GB', {timeZone: 'Pacific/Auckland'});
-			const berkely = date.toLocaleTimeString('en-GB', {timeZone: 'US/Pacific'});
+			const auckland = date.toLocaleTimeString('en-GB', {timeZone: 'Pacific/Auckland', hour: '2-digit', minute:'2-digit'});
+			const berkely = date.toLocaleTimeString('en-GB', {timeZone: 'US/Pacific', hour: '2-digit', minute:'2-digit'});
 			document.getElementById("auckland").innerHTML = auckland
 			document.getElementById("berkely").innerHTML = berkely
 			setTimeout(displayClock, 1000);
