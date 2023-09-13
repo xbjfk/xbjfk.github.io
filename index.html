@@ -28,8 +28,8 @@ html {
 			<p id="auckland" class="clock"></p>
 		</div>
 		<div>
-			Berkely:
-			<p id="berkely" class="clock"></p>
+			Berkeley:
+			<p id="Berkeley" class="clock"></p>
 		</div>
 	</div>
 	<script>
@@ -37,9 +37,9 @@ html {
 		function displayClock() {
 			const date = new Date()
 			const auckland = date.toLocaleTimeString('en-GB', {timeZone: 'Pacific/Auckland', hour: '2-digit', minute:'2-digit'});
-			const berkely = date.toLocaleTimeString('en-GB', {timeZone: 'US/Pacific', hour: '2-digit', minute:'2-digit'});
+			const Berkeley = date.toLocaleTimeString('en-GB', {timeZone: 'US/Pacific', hour: '2-digit', minute:'2-digit'});
 			document.getElementById("auckland").innerHTML = auckland
-			document.getElementById("berkely").innerHTML = berkely
+			document.getElementById("Berkeley").innerHTML = Berkeley
 			setTimeout(displayClock, 1000);
 		}
 	</script>
