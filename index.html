@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Clock</title>
+	<link rel="stylesheet" href="style.css">
+<style>
+html {
+	font-size: 32px;
+}
+.clock {
+	font-family: monospace;
+	font-size: 64px;
+	margin: 12px;
+}
+</style>
+</head>
+
+<body>
+	<script>
+		window.onload = displayClock();
+		function displayClock() {
+			const date = new Date()
+			const auckland = date.toLocaleTimeString('en-GB', {timeZone: 'Pacific/Auckland'});
+			const berkely = date.toLocaleTimeString('en-GB', {timeZone: 'US/Pacific'});
+			document.body.innerHTML = "Auckland:\t<p class=\"clock\">" + auckland + "</p><br>Berkely:\t<p class=\"clock\">" + berkely + "</p>";
+			setTimeout(displayClock, 1000);
+		}
+	</script>
+</body>
+
+</html>
