@@ -6,41 +6,126 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Clock</title>
-	<link rel="stylesheet" href="style.css">
-<style>
-html {
-	font-size: 16px;
-	color-scheme: dark;
-}
-.clock {
-	font-family: monospace;
-	font-size: 32px;
-	margin: 12px;
-	display: inline;
-}
-</style>
+	<style>
+		html {
+			font-size: 16px;
+		}
+
+		.clock {
+			font-family: monospace;
+			font-size: 32px;
+			margin: 12px;
+			display: inline;
+		}
+
+		.date {
+			font-size: 12px;
+			font-family: sans-serif;
+			margin-left: 8px;
+		}
+
+		#settings {
+			display: flex;
+			flex-direction: column;
+			flex-wrap: wrap;
+
+			align-self: stretch;
+
+			flex: 1;
+		}
+
+		html {
+			height: 100vh;
+		}
+
+		body {
+			margin: 0;
+			padding: 8px;
+			max-height: calc(100% - 16px);
+			/* I hate CSS so much */
+		}
+	</style>
 </head>
 
-<body>
-	<div style="display: flex; flex-direction: row; justify-content: space-between;">
-		<div>
-			Auckland:
-			<p id="auckland" class="clock"></p>
-		</div>
-		<div>
-			Berkely:
-			<p id="berkely" class="clock"></p>
-		</div>
+<body style="display: flex; flex-direction: row; justify-content: space-between;">
+	<div>
+		Auckland:
+		<p id="auckland" class="clock"></p>
+	</div>
+	<div id="settings" style="display: none;">
+		<legend>Settings</legend>
+		<label>
+			<input type="checkbox" id="setting-hr24"></input>
+			24 hour time
+		</label>
+		<label>
+			<input type="checkbox" id="setting-light"></input>
+			Light Mode
+		</label>
+		<label>
+			<input type="checkbox" id="setting-showDate"></input>
+			Show Date
+		</label>
+		<button type="button" onclick="document.getElementById('settings').style['display'] = 'none'">Close
+			settings</button>
+	</div>
+	<div>
+		Berkeley:
+		<p id="berkeley" class="clock"></p>
 	</div>
 	<script>
-		window.onload = displayClock();
-		function displayClock() {
+		let settings = {
+			hr24: false,
+			light: false,
+			showDate: false
+		}
+
+		document.cookie
+			.split('; ')
+			.map(v => v.split('='))
+			.forEach(([k, v]) => {
+				if (!k) {return }
+				settings[k] = Boolean(Number(v))
+			})
+
+		document.addEventListener('contextmenu', function (e) {
+			document.getElementById("settings").style["display"] = ""
+			e.preventDefault();
+		}, false);
+
+		Object.entries(settings).forEach(([k, v]) => {
+			console.log(k)
+			const checkbox = document.getElementById("setting-" + k)
+			checkbox.checked = v
+			checkbox.addEventListener('change', (event) => {
+				const newValue = event.currentTarget.checked
+				settings[k] = newValue
+				displayClock(true)
+				document.cookie = `${k}=${Number(newValue)}; SameSite=None`
+			})
+		})
+
+		window.onload = displayClock
+
+		function displayClock(fromSetting) {
+			document.documentElement.style["color-scheme"] = settings.light ? "light" : "dark"
 			const date = new Date()
-			const auckland = date.toLocaleTimeString('en-GB', {timeZone: 'Pacific/Auckland', hour: '2-digit', minute:'2-digit'});
-			const berkely = date.toLocaleTimeString('en-GB', {timeZone: 'US/Pacific', hour: '2-digit', minute:'2-digit'});
+			let auckland = date.toLocaleString(settings.hr24 ? 'en-GB' : 'en-US', {timeZone: 'Pacific/Auckland', hour: '2-digit', minute: '2-digit'});
+			let berkeley = date.toLocaleString(settings.hr24 ? 'en-GB' : 'en-US', {timeZone: 'US/Pacific', hour: '2-digit', minute: '2-digit'});
+
+			if (settings.showDate) {
+				const aucklandDate = date.toLocaleDateString(undefined, {timeZone: 'Pacific/Auckland', weekday: 'short', month: 'short', day: 'numeric'})
+				const berkeleyDate = date.toLocaleDateString(undefined, {timeZone: 'US/Pacific', weekday: 'short', month: 'short', day: 'numeric'})
+
+				auckland = `${auckland}<span class="date">${aucklandDate}</span>`
+				berkeley = `${berkeley}<span class="date">${berkeleyDate}</span>`
+			}
+
 			document.getElementById("auckland").innerHTML = auckland
-			document.getElementById("berkely").innerHTML = berkely
-			setTimeout(displayClock, 1000);
+			document.getElementById("berkeley").innerHTML = berkeley
+			if (!fromSetting) {
+				setTimeout(displayClock, 1000);
+			}
 		}
 	</script>
 </body>
