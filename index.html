@@ -66,6 +66,10 @@
 			<input type="checkbox" id="setting-showDate"></input>
 			Show Date
 		</label>
+		<label>
+			<input type="checkbox" id="setting-showSeconds"></input>
+			Show Seconds
+		</label>
 		<button type="button" onclick="document.getElementById('settings').style['display'] = 'none'">Close
 			settings</button>
 	</div>
@@ -77,7 +81,8 @@
 		let settings = {
 			hr24: false,
 			light: false,
-			showDate: false
+			showDate: false,
+			showSeconds: false
 		}
 
 		document.cookie
@@ -100,18 +105,19 @@
 			checkbox.addEventListener('change', (event) => {
 				const newValue = event.currentTarget.checked
 				settings[k] = newValue
-				displayClock(true)
-				document.cookie = `${k}=${Number(newValue)}; SameSite=None`
+				displayClock()
+				document.cookie = `${k}=${Number(newValue)}; SameSite=None; Secure`
 			})
 		})
 
 		window.onload = displayClock
 
-		function displayClock(fromSetting) {
+		function displayClock() {
 			document.documentElement.style["color-scheme"] = settings.light ? "light" : "dark"
 			const date = new Date()
-			let auckland = date.toLocaleString(settings.hr24 ? 'en-GB' : 'en-US', {timeZone: 'Pacific/Auckland', hour: '2-digit', minute: '2-digit'});
-			let berkeley = date.toLocaleString(settings.hr24 ? 'en-GB' : 'en-US', {timeZone: 'US/Pacific', hour: '2-digit', minute: '2-digit'});
+			const seconds = settings.showSeconds ? {second: '2-digit'} : {}
+			let auckland = date.toLocaleString(settings.hr24 ? 'en-GB' : 'en-US', {timeZone: 'Pacific/Auckland', hour: '2-digit', minute: '2-digit', ...seconds});
+			let berkeley = date.toLocaleString(settings.hr24 ? 'en-GB' : 'en-US', {timeZone: 'US/Pacific', hour: '2-digit', minute: '2-digit', ...seconds});
 
 			if (settings.showDate) {
 				const aucklandDate = date.toLocaleDateString(undefined, {timeZone: 'Pacific/Auckland', weekday: 'short', month: 'short', day: 'numeric'})
@@ -123,10 +129,15 @@
 
 			document.getElementById("auckland").innerHTML = auckland
 			document.getElementById("berkeley").innerHTML = berkeley
-			if (!fromSetting) {
-				setTimeout(displayClock, 1000);
+		}
+
+		async function clockLoop() {
+			while (1) {
+				displayClock()
+				await new Promise(r => setTimeout(r, 1000));
 			}
 		}
+		clockLoop()
 	</script>
 </body>
 
