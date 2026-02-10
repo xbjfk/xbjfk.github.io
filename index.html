@@ -25,22 +25,6 @@
 			font-display: swap;
 		}
 
-		@media (prefers-color-scheme: light) {
-			:root {
-				--bg: #E5E5E5;
-				--text: #262626;
-				--grey: #5C5C5C;
-			}
-
-			.block {
-				box-shadow: inset -6px -6px 4px rgba(255, 255, 255, 0.24), inset 2px 2px 4px rgba(0, 0, 0, 0.2);
-			}
-
-			.clock {
-				text-shadow: 1px 1px 8px rgba(255, 255, 255, 0.08);
-			}
-		}
-
 		@media (prefers-color-scheme: dark) {
 			:root {
 				--bg: #262626;
@@ -54,6 +38,22 @@
 
 			.clock {
 				text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.16);
+			}
+		}
+
+		@media (prefers-color-scheme: light) {
+			:root {
+				--bg: #E5E5E5;
+				--text: #262626;
+				--grey: #5C5C5C;
+			}
+
+			.block {
+				box-shadow: inset -6px -6px 4px rgba(255, 255, 255, 0.24), inset 2px 2px 4px rgba(0, 0, 0, 0.2);
+			}
+
+			.clock {
+				text-shadow: 1px 1px 8px rgba(255, 255, 255, 0.08);
 			}
 		}
 
