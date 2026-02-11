@@ -29,15 +29,11 @@
 			:root {
 				--bg: #262626;
 				--text: #E5E5E5;
-				--grey: #959595;
+				--grey: #BEBEBE;
 			}
 
 			.block {
-				box-shadow: inset -4px -4px 4px rgba(229, 229, 229, 0.04), inset 4px 4px 6px rgba(0, 0, 0, 0.48);
-			}
-
-			.clock {
-				text-shadow: 1px 1px 8px rgba(255, 255, 255, 0.08);
+				box-shadow: inset max(-0.8vw, -4vh) max(-0.8vw, -4vh) min(0.8vw, 4vh) rgba(229, 229, 229, 0.04), inset min(0.8vw, 4vh) min(0.8vw, 4vh) min(0.8vw, 4vh) rgba(0, 0, 0, 0.48);
 			}
 		}
 
@@ -49,20 +45,16 @@
 			}
 
 			.block {
-				box-shadow: inset -6px -6px 4px rgba(255, 255, 255, 0.24), inset 2px 2px 4px rgba(0, 0, 0, 0.2);
-			}
-
-			.clock {
-				text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.16);
+				box-shadow: inset max(-1.2vw, -6vh) max(-1.2vw, -6vh) min(0.8vw, 4vh) rgba(255, 255, 255, 0.24), inset min(0.4vw, 2vh) min(0.4vw, 2vh) min(0.8vw, 4vh) rgba(0, 0, 0, 0.2);
 			}
 		}
 
 		.block {
-			margin: 10px;
-			padding: 30px 20px 12px 20px;
+			margin: min(2.4vw, 12vh);
+			padding: min(6vw, 26vh) min(4vw, 20vh) min(2.7vw, 13.5vh) min(4vw, 20vh);
 			background: var(--bg);
-			border-radius: 12px;
-			min-width: 180px;
+			border-radius: min(2.4vw, 12vh);
+			min-width: min(6vw, 30vh);
 		}
 
 		.block * {
@@ -75,28 +67,27 @@
 
 		.clock {
 			font-family: supply, monospace;
-			font-size: 38px;
+			font-size: min(7.6vw, 38vh);
 			letter-spacing: -0.01em;
 			color: var(--text);
-			line-height: 16px;
+			line-height: min(3.2vw, 16vh);
+			text-shadow: min(0.4vw, 2vh) min(0.4vw, 2vh) min(0.8vw, 4vh) rgba(0, 0, 0, 0.2);
 		}
 
 		.date {
 			font-family: supplylight, monospace;
-			font-size: 10px;
+			font-size: min(2vw, 10vh);
 			letter-spacing: -0.03em;
 			color: var(--grey);
 			font-weight: 700;
-			line-height: 12px;
+			line-height: min(2.2vw, 11vh);
 		}
 
 		#settings {
 			display: flex;
 			flex-direction: column;
 			flex-wrap: wrap;
-
 			align-self: stretch;
-
 			flex: 1;
 		}
 
@@ -108,11 +99,16 @@
 			margin: 0;
 			background-color: var(--bg);
 		}
+
+		body * {
+			user-select: none;
+			box-sizing: border-box;
+		}
 	</style>
 </head>
 
 <body style="display: flex; flex-direction: row; justify-content: space-between;">
-	<div class="block">
+	<div class="block" style="margin-right: 0.5vw">
 		<p id="auckland" class="clock"></p>
 	</div>
 
@@ -138,7 +134,7 @@
 			settings</button>
 	</div>
 
-	<div class="block">
+	<div class="block" style="margin-left: 0.5vw">
 		<p id="berkeley" class="clock"></p>
 	</div>
 	<script>
